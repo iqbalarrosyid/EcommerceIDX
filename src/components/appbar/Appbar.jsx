@@ -12,8 +12,13 @@ import { useNavigate } from "react-router-dom";
 
 const Appbar = () => {
   const navigate = useNavigate();
-  const user = "";
-  const userMenu = ["Profile", "Orders", "Logout"];
+  const user = "user";
+  const userMenu = [
+    {
+    menu: "Profile", link: "/profile"
+  },{
+    menu: "Order", link: "/order"
+  }];
   const adminMenu = ["Setting", "Dashboard", "Logout"];
   const [open, setOpen] = useState(null);
   const menuOpen = (event) => {
@@ -25,6 +30,12 @@ const Appbar = () => {
 
   const toCart = () => navigate("/cart");
   const toHome = () => navigate("/");
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:1786599567.
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:3021398324.
+  const toPage = (link) => {
+    navigate(link);
+    menuClose();
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -63,11 +74,14 @@ const Appbar = () => {
                   open={Boolean(open)}
                   onClose={menuClose}
                 >
-                  {userMenu.map((item) => (
-                    <MenuItem key={item} onClick={menuClose}>
-                      {item}
+                  {userMenu.map((item, index) => (
+                    <MenuItem key={index} onClick={() => toPage(item.link)}>
+                      {item.menu}
                     </MenuItem>
                   ))}
+                  <MenuItem>
+                      Logout
+                    </MenuItem>
                 </Menu>
               </>
             ) : user === "admin" ? (
